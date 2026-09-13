@@ -33,14 +33,7 @@ const menu=document.querySelector(".menu-button"),nav=document.querySelector("na
 const lightbox=document.querySelector(".lightbox"),lightboxImage=lightbox.querySelector("img");document.querySelectorAll(".gallery-grid button").forEach(button=>button.addEventListener("click",()=>{lightboxImage.src=button.dataset.full;lightboxImage.alt=button.querySelector("img").alt;lightbox.showModal()}));lightbox.querySelector(".lightbox-close").addEventListener("click",()=>lightbox.close());lightbox.addEventListener("click",event=>{if(event.target===lightbox)lightbox.close()});
 const previewAudio=new Audio();previewAudio.preload="none";let activePreview=null;function resetPreview(){if(activePreview){activePreview.classList.remove("playing");activePreview.querySelector(":scope > span").textContent="▶"}activePreview=null}document.querySelectorAll(".preview").forEach(button=>button.addEventListener("click",()=>{if(activePreview===button&&!previewAudio.paused){previewAudio.pause();resetPreview();return}resetPreview();activePreview=button;previewAudio.src=button.dataset.audio;previewAudio.currentTime=0;button.classList.add("playing");button.querySelector(":scope > span").textContent="■";previewAudio.play().catch(resetPreview)}));previewAudio.addEventListener("ended",resetPreview);previewAudio.addEventListener("error",resetPreview);
 setLanguage(localStorage.getItem("midnight-rebels-language")||"de");
-const visitorCount=document.getElementById("visitor-count");
 const isLocalFile=location.protocol==="file:";
-if(visitorCount&&isLocalFile){
-  visitorCount.textContent="—";
-}else if(visitorCount&&typeof Counter!=="undefined"){
-  const siteCounter=new Counter({workspace:"midnight-rebels-radek8491-prog",timeout:5000});
-  siteCounter.up("page-views").then(result=>{visitorCount.textContent=Number(result.value).toLocaleString()}).catch(()=>{visitorCount.textContent="—"});
-}
 
 const mediaRoot=document.getElementById("dynamic-media"),mediaAdmin=document.getElementById("media-admin"),mediaForm=document.getElementById("media-form"),adminTrigger=document.getElementById("secret-admin-trigger"),mediaAdminClose=document.getElementById("media-admin-close");
 const mediaConfig={owner:"radek8491-prog",repo:"midnight-rebels",path:"media-links.json",branch:"main"};
