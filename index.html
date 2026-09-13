@@ -175,16 +175,9 @@
     <section class="fan-chat" id="fan-chat">
       <div class="section-label"><span>08</span><p data-i18n="chatLabel">FAN MESSAGES</p></div>
       <h2 data-i18n="chatTitle">LEAVE YOUR MESSAGE.</h2>
-      <div class="fan-chat-layout">
-        <div class="fan-messages" id="fan-messages"><p class="chat-empty" data-i18n="chatEmpty">Be the first to leave a message for Midnight Rebels.</p></div>
-        <form class="fan-chat-form" id="fan-chat-form">
-          <h3 data-i18n="chatFormTitle">WRITE TO MIDNIGHT REBELS</h3>
-          <label><span data-i18n="chatName">Name</span><input id="fan-name" required maxlength="60"></label>
-          <label><span data-i18n="chatCity">City / country</span><input id="fan-city" maxlength="80"></label>
-          <label><span data-i18n="chatMessage">Message</span><textarea id="fan-message" required maxlength="800"></textarea></label>
-          <button class="button" type="submit" data-i18n="chatSend">SEND MESSAGE</button>
-          <p id="fan-chat-status" aria-live="polite"></p>
-        </form>
+      <div class="fan-chat-public">
+        <div class="giscus"></div>
+        <p class="giscus-local-note" hidden>Veřejné zprávy se zobrazí na zveřejněném webu.</p>
       </div>
     </section>
 
