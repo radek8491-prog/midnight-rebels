@@ -34,6 +34,19 @@ const lightbox=document.querySelector(".lightbox"),lightboxImage=lightbox.queryS
 const previewAudio=new Audio();previewAudio.preload="none";let activePreview=null;function resetPreview(){if(activePreview){activePreview.classList.remove("playing");activePreview.querySelector(":scope > span").textContent="▶"}activePreview=null}document.querySelectorAll(".preview").forEach(button=>button.addEventListener("click",()=>{if(activePreview===button&&!previewAudio.paused){previewAudio.pause();resetPreview();return}resetPreview();activePreview=button;previewAudio.src=button.dataset.audio;previewAudio.currentTime=0;button.classList.add("playing");button.querySelector(":scope > span").textContent="■";previewAudio.play().catch(resetPreview)}));previewAudio.addEventListener("ended",resetPreview);previewAudio.addEventListener("error",resetPreview);
 setLanguage(localStorage.getItem("midnight-rebels-language")||"de");
 const isLocalFile=location.protocol==="file:";
+const visitorCount=document.getElementById("visitor-count"),visitorSessionKey="midnightRebelsVisitCounted",visitorCacheKey="midnightRebelsVisitTotal";
+if(visitorCount&&!isLocalFile){
+  const cachedTotal=Number(localStorage.getItem(visitorCacheKey));
+  if(sessionStorage.getItem(visitorSessionKey)&&Number.isFinite(cachedTotal)&&cachedTotal>0){
+    visitorCount.textContent=cachedTotal.toLocaleString();
+  }else{
+    const counterUrl="https://hitscounter.dev/api/hit?output=json&url="+encodeURIComponent("https://radek8491-prog.github.io/midnight-rebels/");
+    fetch(counterUrl,{cache:"no-store"}).then(response=>{if(!response.ok)throw Error();return response.json()}).then(result=>{
+      const total=Number(result.total_hits);if(!Number.isFinite(total))throw Error();
+      visitorCount.textContent=total.toLocaleString();localStorage.setItem(visitorCacheKey,String(total));sessionStorage.setItem(visitorSessionKey,"1");
+    }).catch(()=>{visitorCount.textContent=cachedTotal>0?cachedTotal.toLocaleString():"—"});
+  }
+}
 
 const mediaRoot=document.getElementById("dynamic-media"),mediaAdmin=document.getElementById("media-admin"),mediaForm=document.getElementById("media-form"),adminTrigger=document.getElementById("secret-admin-trigger"),mediaAdminClose=document.getElementById("media-admin-close");
 const mediaConfig={owner:"radek8491-prog",repo:"midnight-rebels",path:"media-links.json",branch:"main"};
